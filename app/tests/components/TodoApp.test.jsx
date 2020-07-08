@@ -3,6 +3,7 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const TestUtils = require('react-addons-test-utils');
 const $ = require('jQuery');
+const moment = require('moment');
 
 const TodoApp = require('TodoApp');
 
@@ -22,6 +23,7 @@ describe('TodoApp', () => {
 
       expect(todoApp.state.todos.length).toBe(1);
       expect(todoApp.state.todos[0].text).toBe(todoText);
+      expect(todoApp.state.todos[0].createdAt).toBeA('number');
     });
   });
 
@@ -32,16 +34,18 @@ describe('TodoApp', () => {
       todoApp.setState({ 
         todos: 
         [
-          { id: 1, text: 'foo', completed: true },
+          { id: 1, text: 'foo', completed: false },
           { id: 2, text: 'bar', completed: false }
         ] 
       });
-      expect(todoApp.state.todos[0].completed).toBe(true);
-      expect(todoApp.state.todos[1].completed).toBe(false);
-      todoApp.handleToggle(1);
-
       expect(todoApp.state.todos[0].completed).toBe(false);
       expect(todoApp.state.todos[1].completed).toBe(false);
+      expect(todoApp.state.todos[0].completedAt).toBe(undefined);
+      todoApp.handleToggle(1);
+
+      expect(todoApp.state.todos[0].completed).toBe(true);
+      expect(todoApp.state.todos[1].completed).toBe(false);
+      expect(todoApp.state.todos[0].completedAt).toBeA('number');
     });
   });
 

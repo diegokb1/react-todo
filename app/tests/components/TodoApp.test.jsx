@@ -25,4 +25,24 @@ describe('TodoApp', () => {
     });
   });
 
+  describe('handleToggle', () => {
+    it('toggles the selected todo item completed status', () => {
+      const todoApp = TestUtils.renderIntoDocument(<TodoApp />);
+
+      todoApp.setState({ 
+        todos: 
+        [
+          { id: 1, text: 'foo', completed: true },
+          { id: 2, text: 'bar', completed: false }
+        ] 
+      });
+      expect(todoApp.state.todos[0].completed).toBe(true);
+      expect(todoApp.state.todos[1].completed).toBe(false);
+      todoApp.handleToggle(1);
+
+      expect(todoApp.state.todos[0].completed).toBe(false);
+      expect(todoApp.state.todos[1].completed).toBe(false);
+    });
+  });
+
 });

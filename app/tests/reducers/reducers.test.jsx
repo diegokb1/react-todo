@@ -41,4 +41,51 @@ describe('Reducers', () => {
       });
     });
   });
+
+  describe('todosReducer', () => {
+    describe('add todo', () => {
+      it('adds a new todo', () => {
+        const action = { 
+          type: 'ADD_TODO',
+          payload: 'go for a run'
+        };
+
+        const res = reducers.todosReducer(df([]), df(action));
+
+        expect(res.length).toBe(1);
+        expect(res[0].text).toBe('go for a run');
+      });
+    });
+
+    describe('toggle todo', () => {
+      it('sets the todo completed to false and completedAt to undefined when the todo completed is true', () => {
+        const todos = [
+          {
+            id: 1,
+            text: 'foo',
+            createdAt: 1234569,
+            completed: true,
+            completedAt: 1234569
+          },
+          {
+            id: 2,
+            text: 'bar',
+            createdAt: 1234569,
+            completed: false,
+            completedAt: undefined
+          }
+        ];
+
+        const action = {
+          type: 'TOGGLE_TODO',
+          payload: 1
+        };
+
+        const res = reducers.todosReducer(df(todos), df(action));
+
+        expect(res[0].completed).toBe(false);
+        expect(res[0].completedAt).toBe(undefined);
+      });
+    });
+  });
 });

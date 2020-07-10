@@ -45,15 +45,22 @@ describe('Reducers', () => {
   describe('todosReducer', () => {
     describe('add todo', () => {
       it('adds a new todo', () => {
+        const todo = {
+          id: 123,
+          text: 'something',
+          completed: false,
+          completedAt: null,
+          createdAt: 600
+        }
         const action = { 
           type: 'ADD_TODO',
-          payload: 'go for a run'
+          payload: todo
         };
 
         const res = reducers.todosReducer(df([]), df(action));
 
         expect(res.length).toBe(1);
-        expect(res[0].text).toBe('go for a run');
+        expect(res[0]).toEqual(todo);
       });
     });
 

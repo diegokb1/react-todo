@@ -11,10 +11,6 @@ store.subscribe(() => {
   console.log('New State', store.getState());
 });
 
-store.dispatch(actions.addTodo('go for a run'));
-store.dispatch(actions.setSearchText('run'));
-store.dispatch(actions.toggleShowCompleted());
-
 $(document).foundation();
 
 require('style!css!sass!applicationStyles');

@@ -26,6 +26,22 @@ describe('Actions', () => {
     });
   });
 
+  describe('addTodos', () => {
+    it('generates add todos action object', () => {
+      const todos = [{
+        id: 1,
+        text: 'anything',
+        completed: false,
+        createdAt: 600,
+        completedAt: undefined
+      }];
+
+      const action = { type: 'ADD_TODOS', payload: todos };
+      const res = actions.addTodos(todos);
+      expect(res).toEqual(action);
+    });
+  });
+
   describe('toggleShowCompleted', () => {
     it('generates toggle show completed action', () => {
       const action = {

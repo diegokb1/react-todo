@@ -57,6 +57,44 @@ describe('Reducers', () => {
       });
     });
 
+    describe('addTodos', () => {
+      it('adds existing todos', () => {
+        const initialState = [{
+          id: 1,
+          text: 'foo',
+          createdAt: 1234569,
+          completed: true,
+          completedAt: 1234569
+        }];
+
+        const newTodos = [
+          {
+          id: 2,
+          text: 'bar',
+          createdAt: 1234569,
+          completed: false,
+          completedAt: undefined
+          },
+          {
+            id: 3,
+            text: 'foobar',
+            createdAt: 600,
+            completed: false,
+            completedAt: undefined
+          },
+        ]
+        const action = { 
+          type: 'ADD_TODOS',
+          payload: newTodos
+        };
+
+        const res = reducers.todosReducer(df(initialState), df(action));
+
+        expect(res).toEqual([...initialState, ...newTodos]);
+
+      });
+    });
+
     describe('toggle todo', () => {
       it('sets the todo completed to false and completedAt to undefined when the todo completed is true', () => {
         const todos = [

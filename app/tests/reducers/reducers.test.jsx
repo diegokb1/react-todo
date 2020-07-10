@@ -102,8 +102,8 @@ describe('Reducers', () => {
       });
     });
 
-    describe('toggle todo', () => {
-      it('sets the todo completed to false and completedAt to undefined when the todo completed is true', () => {
+    describe('update todo', () => {
+      it('updates the selected todo', () => {
         const todos = [
           {
             id: 1,
@@ -122,14 +122,15 @@ describe('Reducers', () => {
         ];
 
         const action = {
-          type: 'TOGGLE_TODO',
-          payload: 1
+          type: 'UPDATE_TODO',
+          payload: { id: 1, updates: { completedAt: null, completed: false } }
         };
 
         const res = reducers.todosReducer(df(todos), df(action));
 
         expect(res[0].completed).toBe(false);
-        expect(res[0].completedAt).toBe(undefined);
+        expect(res[0].completedAt).toBe(null);
+        expect(res[0].text).toBe('foo');
       });
     });
   });

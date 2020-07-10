@@ -19,10 +19,9 @@ export const TodoItem = React.createClass({
 
       return `${message}${moment.unix(timestamp).format('MMM Do YYYY @ h:mm a')}`
     };
-
     return (
       <div className={todoClassName} onClick={() => {
-        dispatch(actions.toggleTodo(id));
+        dispatch(actions.startToggleTodo(id, !completed));
       }}>
         <div>
           <input type="checkbox" checked={completed} />

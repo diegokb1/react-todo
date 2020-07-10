@@ -1,5 +1,6 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import firebase, { firebaseRef } from 'app/firebase/';
 const expect = require('expect');
 const actions = require('actions');
 
@@ -33,7 +34,7 @@ describe('Actions', () => {
   describe('startAddTodo', () => {
     it('creates todo and dispatchs ADD_TODO', done => {
       const store = createMockStore({});
-      const todoText = 'test text';
+      const todoText = 'test text new';
 
       store.dispatch(actions.startAddTodo(todoText)).then(() => {
         const actions = store.getActions();
@@ -77,14 +78,46 @@ describe('Actions', () => {
   });
 
   describe('toggleTodo', () => {
-    it('generates toggle todo action', () => {
+    it('generates update todo action', () => {
       const action = {
-        type: 'TOGGLE_TODO',
-        payload: 4
+        type: 'UPDATE_TODO',
+        payload: { id: 4, updates: { completed: false } }
       };
-      const res = actions.toggleTodo(4);
+      const res = actions.updateTodo({ id: 4, updates: { completed: false } });
 
       expect(res).toEqual(action);
     });
+  });
+
+  describe('Tests with firebase todos', () => {
+    let testTodoRef;
+
+    beforeEach(done => {
+      testTodoRef = firebaseRef.child('todos').push();
+
+      testTodoRef.set({
+        text: 'foo',
+        completed: false,
+        createdAt: 500
+      }).then(() => done());
+    });
+
+    afterEach(done => {
+      testTodoRef.remove().then(() => done());
+    });
+
+    describe('startToggleTodo', () => {
+      it('toggles todo and dispatchs UPDATE_TODO action', done => {
+        const store = createMockStore({});
+        store.dispatch(actions.startToggleTodo(testTodoRef.key, true)).then(() => {
+          const mockActions = store.getActions();
+          expect(mockActions[0].type).toBe('UPDATE_TODO')
+          expect(mockActions[0].payload.id).toBe(testTodoRef.key)
+          expect(mockActions[0].payload.updates.completedAt).toExist();
+          expect(mockActions[0].payload.updates.completed).toBe(true);
+          done();
+        });
+      })
+    })
   });
 });

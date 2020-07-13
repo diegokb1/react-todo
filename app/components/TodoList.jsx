@@ -6,15 +6,16 @@ import TodoItem from 'TodoItem';
 export const TodoList = React.createClass({
   render: function () {
     const { todos, showCompleted, searchText } = this.props;
+    const filteredTodos = todoApi.filterTodos(todos, showCompleted, searchText);
     const renderTodos = () => {
 
-      if (todos.length === 0) {
+      if (todos.length === 0 || filteredTodos.length === 0) {
         return (
           <p className="container__message">Nothing To Do</p>
         );
       }
 
-      return todoApi.filterTodos(todos, showCompleted, searchText).map(todo => {
+      return filteredTodos.map(todo => {
         return (
           <TodoItem key={todo.id} {...todo} />
         );

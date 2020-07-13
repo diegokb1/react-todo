@@ -1,6 +1,7 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import firebase, { firebaseRef } from 'app/firebase/';
+import { todosReducer } from '../../reducers/reducers';
 const expect = require('expect');
 const actions = require('actions');
 
@@ -93,13 +94,19 @@ describe('Actions', () => {
     let testTodoRef;
 
     beforeEach(done => {
-      testTodoRef = firebaseRef.child('todos').push();
+      const todosRef = firebaseRef.child('todos');
 
-      testTodoRef.set({
-        text: 'foo',
-        completed: false,
-        createdAt: 500
-      }).then(() => done());
+      todosRef.remove().then(() => {
+        testTodoRef = firebaseRef.child('todos').push();
+
+        return testTodoRef.set({
+          text: 'foo',
+          completed: false,
+          createdAt: 500
+        })
+      })
+      .then(() => done())
+      .catch(done);
     });
 
     afterEach(done => {
@@ -118,6 +125,23 @@ describe('Actions', () => {
           done();
         });
       })
-    })
+    });
+
+    describe('startAddTodos', () => {
+      it('fetchs todos and dispatchs ADD_TODOS action', done => {
+        const store = createMockStore({});
+        
+        store.dispatch(actions.startAddTodos()).then(() => {
+          const mockActions = store.getActions();
+          expect(mockActions[0].type).toBe('ADD_TODOS');
+          expect(mockActions[0].payload.length).toBe(1);
+          expect(mockActions[0].payload[0].id).toBe(testTodoRef.key);
+          expect(mockActions[0].payload[0].text).toBe('foo');
+          expect(mockActions[0].payload[0].completedAt).toBe(undefined);
+          expect(mockActions[0].payload[0].completed).toBe(false);
+          done();
+        });
+      })
+    });
   });
 });

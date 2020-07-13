@@ -25,7 +25,6 @@ export const startAddTodo = text => {
     };
 
     const todoRef = firebaseRef.child('todos').push(todo);
-
     return todoRef.then(() => {
       dispatch(addTodo({
         ...todo,
@@ -52,7 +51,6 @@ export const startAddTodos = () => {
       finalTodos = keys.map(todoId => {
         return { id: todoId, ...todos[todoId] }
       });
-
       dispatch(addTodos(finalTodos));
     })
   }

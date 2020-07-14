@@ -133,6 +133,26 @@ describe('Reducers', () => {
         expect(res[0].text).toBe('foo');
       });
     });
+
+    describe('logout', () => {
+      it('clears the todo list', () => {
+        const initialState = [{
+          id: 1,
+          text: 'foo',
+          createdAt: 1234569,
+          completed: true,
+          completedAt: 1234569
+        }];
+
+        const action = { 
+          type: 'LOGOUT'
+        };
+
+        const res = reducers.todosReducer(df(initialState), df(action));
+
+        expect(res).toEqual([]);
+      })
+    });
   });
 
   describe('authReducer', () => {

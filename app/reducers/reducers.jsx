@@ -40,6 +40,8 @@ export const todosReducer = (state = [], action) => {
         ...state,
         ...action.payload
       ]
+    case 'LOGOUT':
+      return [];
     default:
       return state;
   }

@@ -134,4 +134,28 @@ describe('Reducers', () => {
       });
     });
   });
+
+  describe('authReducer', () => {
+    describe('login', () => {
+      it('sets the user id', () => {
+        const action = {
+          type: 'LOGIN',
+          payload: 10
+        };
+
+        const res = reducers.authReducer(df({ }), df(action));
+        expect(res).toEqual({ uid: 10 });
+      })
+    });
+    describe('logout', () => {
+      it('set auth to empty object', () => {
+        const action = {
+          type: 'LOGOUT'
+        };
+
+        const res = reducers.authReducer(df({ uid: 4 }), df(action));
+        expect(res).toEqual({});
+      })
+    });
+  });
 });

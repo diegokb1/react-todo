@@ -90,6 +90,30 @@ describe('Actions', () => {
     });
   });
 
+  describe('login', () => {
+    it('generates login action with the passed uid', () => {
+      const action = {
+        type: 'LOGIN',
+        payload: 10
+      };
+
+      const res = actions.login(10);
+
+      expect(res).toEqual(action);
+    });
+  });
+
+  describe('logout', () => {
+    it('generates logout action', () => {
+      const action = {
+        type: 'LOGOUT',
+      };
+      const res = actions.logout();
+
+      expect(res).toEqual(action);
+    })
+  });
+
   describe('Tests with firebase todos', () => {
     let testTodoRef;
 

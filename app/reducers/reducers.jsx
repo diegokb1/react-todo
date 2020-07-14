@@ -1,6 +1,3 @@
-const uuid = require('node-uuid');
-const moment = require('moment');
-
 export const searchTextReducer = (state = '', action) => {
   switch(action.type) {
     case 'SET_SEARCH_TEXT':
@@ -43,6 +40,17 @@ export const todosReducer = (state = [], action) => {
         ...state,
         ...action.payload
       ]
+    default:
+      return state;
+  }
+};
+
+export const authReducer = (state = {}, action) => {
+  switch(action.type) {
+    case 'LOGIN':
+      return { uid: action.payload };
+    case 'LOGOUT':
+      return { };
     default:
       return state;
   }

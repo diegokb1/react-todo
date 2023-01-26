@@ -42,7 +42,7 @@
     "webpack": "^1.12.13"
   },
   "devDependencies": {
-    "karma": "^5.1.0",
+    "karma": "^6.4.1",
     "karma-chrome-launcher": "^0.2.2",
     "karma-mocha": "^0.2.2",
     "karma-mocha-reporter": "^2.0.0",
